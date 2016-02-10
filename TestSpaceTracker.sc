@@ -1,7 +1,7 @@
-TestSpaceTracker : UnitTest {
+TestSpaceWrite : UnitTest {
 
   var
-    tmp
+    tmp, st, data, str
   ;
 
   *new {
@@ -12,12 +12,35 @@ TestSpaceTracker : UnitTest {
     tmp = SpaceTmp.new;
   }
 
-  test_single_write {
-    var f, d, t, s;
+  process {
+    st = SpaceTracker(tmp.file("drum"), tmp.file("wav"));
+    data.do {
+      arg d, i;
+      var f;
+      f = SoundFile(st.soundfile ++ if(i==0, "", $.++i));
+      f.headerFormat="WAV";
+      f.numChannels=3;
+      
+      f.openWrite;
+      f.writeData(d);
+      f.close;
     
-    t = SpaceTracker(tmp.file("drum"), tmp.file("wav"));
+      f.path.postln;
+    };
+    st.soundFileTo;
     
-    d = FloatArray[
+    block {
+      var f;
+      f = File.open(st.treefile, "r");
+      str = f.readAllString;
+      f.close;
+    };
+    str.postln;
+  }
+
+  test_single {
+    
+    data = [FloatArray[
       0.25, 36, 0.5,
       0.25, 40, 0.5,
       0.25, 42, 0.5,
@@ -26,26 +49,13 @@ TestSpaceTracker : UnitTest {
       0.25, 40, 0.5,
       0.25, 42, 0.5,
       0.25, 40, 0.5,
-    ];
+    ]];
     
-    f = SoundFile(t.soundfile);
-    f.headerFormat="WAV";
-    f.numChannels=(3);
-    f.openWrite;
-    f.writeData(d);
-    f.close;
+    this.process;
 
-    t.soundFileTo;
+    this.assertEquals(str.findAll("\n").size, 8);
 
-    f = File.open(t.treefile, "r");
-    
-    t.treefile.postln;
-    s = f.readAllString;
-    f.close;
-
-    this.assertEquals(s.findAll("\n").size, 8);
-
-    s.split($\n).do { |line, i|
+    str.split($\n).do { |line, i|
       var a, b, note, vel;
       
       if (line.size != 0) {
@@ -58,14 +68,12 @@ TestSpaceTracker : UnitTest {
     };
 
   }
-  
-  test_multi_write {
-    var f, d, t, s;
-    
-    t = SpaceTracker(tmp.file("drum"), tmp.file("wav"));
-    
-    d = [
+ 
+  test_multi {
+   
+    data = [
       FloatArray[
+        1.5, 0, 0,
         0.5, 36, 0.5,
         0.5, 42, 0.5,
         0.5, 36, 0.5,
@@ -73,7 +81,7 @@ TestSpaceTracker : UnitTest {
         0.5, 36, 0.5
       ],
       FloatArray[
-        0.25, 40, 0,
+        1.75, 0, 0,
         0.5, 40, 0.5,
         0.5, 40, 0.5,
         0.5, 40, 0.5,
@@ -83,28 +91,7 @@ TestSpaceTracker : UnitTest {
       ]
     ];
     
-    d.do {
-      arg d, i;
-      f = SoundFile(t.soundfile ++ if(i==0, "", $.++i));
-      f.headerFormat="WAV";
-      f.numChannels=3;
-      
-      f.openWrite;
-      f.writeData(d);
-      f.close;
-    
-      f.path.postln;
-    };
-
-    t.soundFileTo;
-    
-    f = File.open(t.treefile, "r");
-    
-    t.treefile.postln;
-    s = f.readAllString;
-    f.close;
-
-    s.post;
+    this.process;
   }
 
 }
