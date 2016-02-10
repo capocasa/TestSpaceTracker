@@ -17,10 +17,6 @@ TestSpaceTracker : UnitTest {
     
     t = SpaceTracker(tmp.file("drum"), tmp.file("wav"));
     
-    f = SoundFile(t.soundfile);
-    f.headerFormat="WAV";
-    f.numChannels=(3);
-    f.openWrite;
     d = FloatArray[
       0.25, 36, 0.5,
       0.25, 40, 0.5,
@@ -31,6 +27,11 @@ TestSpaceTracker : UnitTest {
       0.25, 42, 0.5,
       0.25, 40, 0.5,
     ];
+    
+    f = SoundFile(t.soundfile);
+    f.headerFormat="WAV";
+    f.numChannels=(3);
+    f.openWrite;
     f.writeData(d);
     f.close;
 
@@ -56,6 +57,54 @@ TestSpaceTracker : UnitTest {
       };
     };
 
+  }
+  
+  test_multi_write {
+    var f, d, t, s;
+    
+    t = SpaceTracker(tmp.file("drum"), tmp.file("wav"));
+    
+    d = [
+      FloatArray[
+        0.5, 36, 0.5,
+        0.5, 42, 0.5,
+        0.5, 36, 0.5,
+        0.5, 42, 0.5,
+      ],
+      FloatArray[
+        0.25, 0, 0,
+        0.5, 40, 0.5,
+        0.5, 40, 0.5,
+        0.5, 40, 0.5,
+        0.25, 40, 0.5,
+      ]
+    ];
+    
+    d.do {
+      arg d, i;
+      f = SoundFile(t.soundfile ++ if(i==0, "", $.++i));
+      f.headerFormat="WAV";
+      f.numChannels=3;
+      
+      f.openWrite;
+      f.writeData(d);
+      f.close;
+    
+      f.path.postln;
+    };
+
+    t.soundFileTo;
+    
+    /* 
+
+    f = File.open(t.treefile, "r");
+    
+    t.treefile.postln;
+    s = f.readAllString;
+    f.close;
+
+    s.post;
+    */
   }
 
 }
