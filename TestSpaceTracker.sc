@@ -70,13 +70,16 @@ TestSpaceTracker : UnitTest {
         0.5, 42, 0.5,
         0.5, 36, 0.5,
         0.5, 42, 0.5,
+        0.5, 36, 0.5
       ],
       FloatArray[
-        0.25, 0, 0,
+        0.25, 40, 0,
         0.5, 40, 0.5,
         0.5, 40, 0.5,
         0.5, 40, 0.5,
         0.25, 40, 0.5,
+        0.5, 40, 0.5,
+        0.5, 40, 0.5
       ]
     ];
     
@@ -95,8 +98,6 @@ TestSpaceTracker : UnitTest {
 
     t.soundFileTo;
     
-    /* 
-
     f = File.open(t.treefile, "r");
     
     t.treefile.postln;
@@ -104,7 +105,6 @@ TestSpaceTracker : UnitTest {
     f.close;
 
     s.post;
-    */
   }
 
 }
