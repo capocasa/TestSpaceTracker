@@ -70,32 +70,35 @@ TestSpaceWrite : UnitTest {
   }
  
   test_overlapping {
-   
+  
     data = [
       FloatArray[
         2, 0, 0,
         1.5, 36, 0.5,
         0.5, 0, 0,
-        1.5, 36, 0.5,
+        1.5, 37, 0.5,
         0.5, 0, 0,
-        1.5, 36, 0.5,
+        1.5, 38, 0.5,// This channel is consumed before end of section
       ],
       FloatArray[
         2.5, 0, 0,
         1, 40, 0.5,
         1, 0, 0,
-        1, 40, 0.5
+        1, 41, 0.5 // This one too
       ],
       FloatArray[
         3, 0, 0,
-        0.5, 40, 0.5,
-        1.5, 0, 0,
-        0.5, 40, 0.5,
-        1.5, 0, 0,
+        0.5, 42, 0.5,
+        1.5, 0, 0,    // Because this channel is longer than the other two
+        0.5, 43, 0.5,
+        //1.5, 0, 0, 
       ]
     ];
     
     this.process;
+ 
+    this.assert( st.write.sections.asArray == [ false, 0, true, 2, true, 3.5, false, 6 ], "sections correct");
+  
   }
 
   test_recorded {
