@@ -27,15 +27,19 @@ TestSpaceWrite : UnitTest {
     
       f.path.postln;
     };
-    st.soundFileTo;
     
-    block {
-      var f;
-      f = File.open(st.treefile, "r");
-      str = f.readAllString;
-      f.close;
+    protect  {
+      st.soundFileTo;
+    } {
+    
+      block {
+        var f;
+        f = File.open(st.treefile, "r");
+        str = f.readAllString;
+        f.close;
+      };
+      str.postln;
     };
-    str.postln;
   }
 
   test_single {
