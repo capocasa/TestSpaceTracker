@@ -1,5 +1,7 @@
 TestSpaceWrite : UnitTest {
-
+  classvar
+    enableDraw = true
+  ;
   var
     tmp, sounds, write, linemap, tree, data, str, draw
   ;
@@ -61,8 +63,11 @@ TestSpaceWrite : UnitTest {
   }
 
   draw {
-    var name = thisMethod.getBackTrace.caller.functionDef.asString.split($_).last; 
-    draw = StDraw(data, 3, name);
+    var name;
+    if (enableDraw) {
+      name = thisMethod.getBackTrace.caller.functionDef.asString.split($_).last; 
+      draw = StDraw(data, 3, name);
+    };
   }
 
   assertSections {
