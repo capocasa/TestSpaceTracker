@@ -1,7 +1,7 @@
 TestSpaceWrite : UnitTest {
 
   var
-    tmp, sounds, write, linemap, tree, data, str
+    tmp, sounds, write, linemap, tree, data, str, draw
   ;
 
   *new {
@@ -60,6 +60,11 @@ TestSpaceWrite : UnitTest {
     };
   }
 
+  draw {
+    var name = thisMethod.getBackTrace.caller.functionDef.asString.split($_).last; 
+    draw = StDraw(data, 3, name);
+  }
+
   assertSections {
     |sections|
     this.assertEquals(write.sections.asArray, sections.asArray, 'sections');
@@ -85,7 +90,7 @@ TestSpaceWrite : UnitTest {
       ]
     ];
     
-    StDraw(data, 3, thisMethod.name.asString[5..]);
+    this.draw;
 
     this.analyze;
 
@@ -139,7 +144,7 @@ TestSpaceWrite : UnitTest {
 
     ];
     
-    StDraw(data, 3, thisMethod.name.asString[5..].postln);
+    this.draw;
  
     this.analyze;
    
@@ -178,7 +183,7 @@ TestSpaceWrite : UnitTest {
 
     this.analyze;
     
-    StDraw(data, 3, thisMethod.name.asString[5..]);
+    this.draw;
 
     this.assertSections([ false, 0, true, 0.42, false, 0.63 ]);
 
@@ -193,7 +198,7 @@ TestSpaceWrite : UnitTest {
 
     data = data.collect {|a| a[0..11]};
     
-    StDraw(data, 3, thisMethod.name.asString[5..]);
+    this.draw;
 
     this.analyze;
   }
@@ -220,7 +225,7 @@ TestSpaceWrite : UnitTest {
 
     this.analyze;
     
-    StDraw(data, 3, thisMethod.name.asString[5..]);
+    this.draw;
  
     this.assertSections([ false, 0, true, 0.5, false, 2.5, true, 3, false, 4.5 ]);
   }
@@ -230,7 +235,7 @@ TestSpaceWrite : UnitTest {
 
     this.analyze;
 
-    StDraw(data, 3, thisMethod.name.asString[5..]);
+    this.draw;
  
     //this.assertSections([ false, 0, true, 0.5, false, 2.5, true, 3, false, 4.5 ]);
 
@@ -241,7 +246,7 @@ TestSpaceWrite : UnitTest {
 
     this.analyze;
 
-    StDraw(data, 3, thisMethod.name.asString[5..]);
+    this.draw;
 
   }
 
@@ -250,7 +255,7 @@ TestSpaceWrite : UnitTest {
 
     this.analyze;
 
-    StDraw(data, 3, thisMethod.name.asString[5..]);
+    this.draw;
     
   }
 
@@ -259,7 +264,7 @@ TestSpaceWrite : UnitTest {
 
     this.analyze;
     
-    StDraw(data, 3, thisMethod.name.asString[5..]);
+    this.draw;
   }
 
   test_random5 {
@@ -267,7 +272,7 @@ TestSpaceWrite : UnitTest {
   
     this.analyze;
       
-    StDraw(data, 3, thisMethod.name.asString[5..]);
+    this.draw;
   }
 
   test_multimulti {
@@ -297,7 +302,7 @@ TestSpaceWrite : UnitTest {
     ];
 
     this.analyze;
-    StDraw(data, 3, thisMethod.name.asString[5..]);
+    this.draw;
   }
 
 }
