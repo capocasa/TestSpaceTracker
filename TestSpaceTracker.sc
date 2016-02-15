@@ -380,7 +380,7 @@ TestSpaceWriteData {
 
   line {
     var zeroes = Array.fill((notes.size*averagePausesPerNote).round, 0);
-    ^FloatArray[3.0.rand, (notes+zeroes).choose, 0.5];
+    ^FloatArray[3.0.rand, (notes++zeroes).choose, 0.5];
   }
 
   generate {
