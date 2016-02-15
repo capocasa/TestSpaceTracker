@@ -92,6 +92,27 @@ TestSpaceWrite : UnitTest {
     this.assertEquals(write.length, length, "length");
   }
 
+  test_soundsDo {
+    var sound, data;
+    data = FloatArray[0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.1,1.2];
+    sound = SoundFile(tmp.file("wav"));
+    sound.headerFormat="WAV";
+    sound.numChannels=3;
+    
+    sound.openWrite;
+    sound.writeData(data);
+    sound.close;
+
+    write = SpaceWrite([sound]);
+
+    write.soundsDo {
+      |consume, line|
+      this.assertEquals(line, data[0..2]);
+      data=data.drop(3);
+      consume.value(0);
+    };
+  }
+
   test_single {
     
     data = [
