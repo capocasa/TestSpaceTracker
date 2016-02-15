@@ -1,6 +1,6 @@
 TestSpaceWrite : UnitTest {
   classvar
-    <>manual = true
+    <>manual = false
   ;
   var
     tmp, sounds, write, linemap, tree, data, str, draw
@@ -36,7 +36,13 @@ TestSpaceWrite : UnitTest {
 
     write = SpaceWrite(sounds, tree, linemap); 
     write.analyze;
-    write.sections.postln;
+    if (manual) {
+      "".postln;
+      "SECTIONS".postln;
+      write.sections.postln;
+      "".postln;
+      "".postln;
+    }
   }
 
   write {
@@ -50,14 +56,20 @@ TestSpaceWrite : UnitTest {
         str = f.readAllString;
         f.close;
       };
-      str.postln;
-      block {
-        var p,f;
-        p = "/home/carlo/hoodie/phrase/drum/a/note.drum";
-        File.delete(p);
-        f=File.open(p, "w");
-        f.write(str);
-        f.close;
+      if (manual) {
+        "".postln;
+        "STFILE".postln;
+        str.postln;
+        "".postln;
+        "".postln;
+        block {
+          var p,f;
+          p = "/home/carlo/hoodie/phrase/drum/a/note.drum";
+          File.delete(p);
+          f=File.open(p, "w");
+          f.write(str);
+          f.close;
+        };
       };
     };
   }
