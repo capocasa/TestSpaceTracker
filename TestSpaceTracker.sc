@@ -335,5 +335,63 @@ TestSpaceWriteUtil {
 
     ^data.asCompileString;
   }
+
+}
+
+TestSpaceWriteCompare {
+
+  var
+    <>str,
+    <>comparableFormat
+  ;
+
+  *new {
+    arg str;
+    ^super.newCopyArgs(str).init;
+  }
+
+  init {
+  }
+
+  == {
+    arg another;
+    ^another.comparableFormat == comparableFormat;
+  }
+
+}
+
+TestSpaceWriteData {
+ 
+  var
+    <>averagePausesPerNote,
+    <>polyphony,
+    <>notes,
+    <>data
+  ;
+
+  *new {
+    arg averagePausesPerNote = 1, polyphony = 3;
+    ^super.newCopyArgs(averagePausesPerNote, polyphony).init;
+  }
+
+  init {
+   notes = [36,40,42];
+ }
+
+  line {
+    var zeroes = Array.fill((notes.size*averagePausesPerNote).round, 0);
+    ^FloatArray[3.0.rand, (notes+zeroes).choose, 0.5];
+  }
+
+  generate {
+    data=polyphony.collect{
+      var stream = FloatArray[];
+      (5+10.rand).do {
+        stream = stream ++ this.line;
+      };
+      stream;
+    };
+    ^data;
+  }
 }
 
