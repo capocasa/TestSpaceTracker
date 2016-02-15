@@ -84,12 +84,12 @@ TestSpaceWrite : UnitTest {
 
   assertSections {
     |sections|
-    this.assertEquals(write.sections.asArray, sections.asArray, 'sections');
+    this.assertEquals(write.sections.asArray, sections.asArray, "sections");
   }
 
   assertLength {
     |length|
-    this.assertEquals(write.length, length);
+    this.assertEquals(write.length, length, "length");
   }
 
   test_single {
