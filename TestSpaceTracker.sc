@@ -38,6 +38,10 @@ TestSpaceWrite : UnitTest {
     write.analyze;
     if (manual) {
       "".postln;
+      "DATA".postln;
+      TestSpaceWriteData.abs(data).asCompileString.postln;
+      "".postln;
+      "".postln;
       "SECTIONS".postln;
       write.sections.postln;
       "".postln;
