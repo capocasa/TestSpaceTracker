@@ -467,5 +467,17 @@ TestSpaceWriteData {
     };
     ^data;
   }
+
+  *abs {
+    arg data, numChannels = 3;
+    ^data.collect {|ch|
+      ch = ch.clump(numChannels);
+      (ch.size - 1).do {|i|
+        ch[i+1][0] = ch[i+1][0] + ch[i][0];
+      };
+      ch.flatten;
+    };
+  }
+
 }
 
