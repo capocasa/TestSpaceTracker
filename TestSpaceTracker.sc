@@ -117,6 +117,43 @@ TestSpaceWrite : UnitTest {
     };
   }
 
+  test_soundsDo_merge {
+    var sound, data, mergedData, compareData;
+    data = FloatArray[
+      0.5, 0, 0.5,
+      0.5, 0, 0.5,
+      0.5, 0, 0.5,
+      0.5, 1, 0.5,
+      0.5, 2, 0.5,
+      0.5, 3, 0.5,
+      0.5, 0, 0.5,
+      0.5, 0, 0.5,
+      0.5, 0, 0.5,
+      0.5, 1, 0.5,
+      0.5, 2, 0.5,
+      0.5, 3, 0.5
+    ];
+    compareData = FloatArray[1.5, 0, 0.5, 1.5, 1, 0.5,1.5, 0, 0.5, 1.5, 1, 0.5];
+    sound = SoundFile(tmp.file("wav"));
+    sound.headerFormat="WAV";
+    sound.numChannels=3;
+    
+    sound.openWrite;
+    sound.writeData(data);
+    sound.close;
+
+    write = SpaceWrite([sound]);
+
+    mergedData = FloatArray[];
+    write.soundsDo ({
+      |consume, line|
+      mergedData = mergedData ++ line;
+      consume.value(0);
+    }, merge: true);
+  
+    this.assertEquals(compareData, mergedData, 'merged data');
+  }
+
   test_single {
     
     data = [
