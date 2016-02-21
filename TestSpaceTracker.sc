@@ -10,6 +10,9 @@ TestSpaceWrite : UnitTest {
     ^super.new.init;
   }
   
+  // Run one test with debug output on (manual=true), but
+  // run all tests before to immediately see if fixing
+  // one test broke the others
   *runManual { |test, runAllFirst = false|
     var m = manual;
       this.forkIfNeeded {
@@ -29,23 +32,13 @@ TestSpaceWrite : UnitTest {
     tree = SpaceTree();
   }
 
-  setUp {
-  }
-
-  testMethod {
-    var name, frame, index, method;
-    frame = thisMethod.getBackTrace;
-    while {
-      name=frame.functionDef.asString;
-      index = name.find(":test_");
-      if (index.notNil) {
-        method=name[index+6..].asSymbol;
-      };
-      frame.notNil && method.isNil;
-    }{
-      frame = frame.caller;
-    };
-    ^method;
+  todo { |title, msg|
+    "".postln;
+    ("TODO:"+currentMethod+$-+title).postln;
+    "".postln;
+    (msg).postln;
+    "".postln;
+    "".postln;
   }
 
   analyze {
@@ -66,8 +59,9 @@ TestSpaceWrite : UnitTest {
 
     write = SpaceWrite(sounds.copy, tree, linemap); 
     write.analyze;
+    
     if (manual) {
-      draw = StDraw(data, 3, this.testMethod); 
+      draw = StDraw(data, 3, currentMethod.asString.split($_).last); 
       "".postln;
       "DATA".postln;
       TestSpaceWriteData.abs(data).asCompileString.postln;
@@ -450,12 +444,32 @@ if (manual==false) {^this};
       ]
     ];
 
+    this.todo("parallel split", "Split parallel sections into different parallel sections when begins line up");
+
     this.analyze;
     
-    this.assertSections([]);
-    this.assertLength(0);
+    this.assertSections([true, 0]);
+    this.assertLength(7);
   
     this.write;
+  
+    this.assertStr(" 1 4 kick 0.5
+  1 4 kick 0.5
+  1 4 kick 0.5
+  1 4 hat 0.5
+  1.5 4 hat 0.5
+  1.5 4 hat 0.5
+ 1 4 snare 0.5
+  1 4 snare 0.5
+  1 4 snare 0.5
+  2 4 snare 0.5
+  2 4 snare 0.5
+ 1 4 hat 0.5
+  1 4 hat 0.5
+  1.5 4 hat 0.5
+  1.5 4 hat 0.5
+  2 4 hat 0.5
+");
   }
  
 }
