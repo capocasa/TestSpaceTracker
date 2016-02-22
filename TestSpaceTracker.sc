@@ -124,7 +124,7 @@ TestSpaceWrite : UnitTest {
   }
 
   assertStr { |argStr|
-    this.assertEquals(str, argStr, 'spacetracker');
+    this.assertEquals(str, argStr, "spacetracker");
   }
 
   test_soundsDo {
