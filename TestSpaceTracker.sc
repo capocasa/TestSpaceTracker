@@ -111,12 +111,16 @@ TestSpaceWrite : UnitTest {
 
   assertSections {
     |sections|
-    this.assertEquals(write.sections.asArray, sections.asArray, "sections");
+    // See assertLength for reason for asString
+    this.assertEquals(write.sections.collect {|e|e.asString}, sections.collect{|e|e.asString}, "sections");
   }
 
   assertLength {
     |length|
-    this.assertEquals(write.length, length, "length");
+    // Compare as string to avoid unexpected rounding behavior
+    // https://github.com/supercollider/supercollider/issues/1875
+    // This is okay because SpaceTracker is a string format
+    this.assertEquals(write.length.asString, length.asString, "length");
   }
 
   assertStr { |argStr|
