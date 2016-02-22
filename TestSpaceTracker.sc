@@ -565,7 +565,7 @@ TestSpaceWriteData {
     ^data.collect {|ch|
       ch = ch.clump(numChannels);
       (ch.size - 1).do {|i|
-        ch[i+1][0] = ch[i+1][0] + ch[i][0];
+        ch[i+1][0] = ch[i+1][0].round(0.000001) + ch[i][0].round(0.000001);
       };
       ch.flatten;
     };
