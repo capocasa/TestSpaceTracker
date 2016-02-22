@@ -269,7 +269,6 @@ if (manual==false) {^this};
   }
   
   test_uneven {
-if (manual==false) {^this};
   
     data = [
       FloatArray[
@@ -294,7 +293,7 @@ if (manual==false) {^this};
     this.analyze;
     
     this.assertSections([ false, 0, true, 0.42, false, 0.63 ]);
-    this.assertLength(0);
+    this.assertLength(1.23);
 
     this.write;
 
@@ -312,8 +311,8 @@ if (manual==false) {^this};
     
     this.analyze;
   
-    this.assertSections([]);
-    this.assertLength(0);
+    this.assertSections( [ false, 0, true, 0.94, false, 1.669333, true, 2.338666, false, 3.3, true, 3.706667, false, 5.430666, true, 5.513333, false, 5.954668 ]);
+    this.assertLength(7.342668);
 
     this.write;
   }
@@ -402,9 +401,9 @@ if (manual==false) {^this};
     data = [ FloatArray[ 0.48788809776306, 0.0, 0.5, 2.5708627700806, 0.0, 0.5, 2.4670708179474, 0.0, 0.5, 1.7356063127518, 0.0, 0.5, 1.0764698982239, 0.0, 0.5, 0.97416615486145, 42.0, 0.5 ], FloatArray[ 1.3373662233353, 0.0, 0.5, 2.7281284332275, 0.0, 0.5, 1.7484973669052, 36.0, 0.5, 0.8468474149704, 0.0, 0.5, 0.90775144100189, 0.0, 0.5, 2.5934293270111, 0.0, 0.5, 1.1205224990845, 0.0, 0.5 ], FloatArray[ 0.51271283626556, 0.0, 0.5, 2.3531792163849, 0.0, 0.5, 0.11452782154083, 36.0, 0.5, 0.44738459587097, 0.0, 0.5, 0.54803967475891, 0.0, 0.5, 1.7476712465286, 0.0, 0.5, 0.28566205501556, 0.0, 0.5, 1.1721067428589, 0.0, 0.5, 0.30645668506622, 0.0, 0.5, 0.32808673381805, 36.0, 0.5, 2.9876441955566, 0.0, 0.5, 1.0809245109558, 0.0, 0.5 ] ];
 
     this.analyze;
-    
-    this.assertSections([]);
-    this.assertLength(0);
+
+    this.assertSections([ false, 0 ]);
+    this.assertLength(11.884397);
 
     this.write;
   }
@@ -422,7 +421,7 @@ if (manual==false) {^this};
   }
 
   test_multimulti {
-if (manual==false) {^this};
+
     data=[
       FloatArray[
         1,36,0.5,
