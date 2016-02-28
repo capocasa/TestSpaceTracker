@@ -227,7 +227,6 @@ if (manual==false) {^this};
   }
  
   test_overlapping {
-if (manual==false) {^this};
   
     data = [
       FloatArray[
@@ -261,9 +260,21 @@ if (manual==false) {^this};
 
     this.write;
 
-    //this.assert( write.sections.asArray == [ false, 0, true, 2, true, 3.5, false, 6 ], "sections correct");
-
-    //str.findRegexp("^[^ ]").postln;
+    this.assertStr("0.5 4 0 0
+ 1.5 4 kick 0.5
+ 0.5 4 0 0
+  1 4 snare 0.5
+ 1 4 0 0
+  0.5 4 hat 0.5
+0.5 4 0 0
+ 1.5 4 rim 0.5
+ 0.5 4 0 0
+  1 4 floor 0.5
+ 1 4 0 0
+  0.5 4 ceil 0.5
+0.5 4 0 0
+1.5 4 snarer 0.5
+");
 
   }
   
@@ -459,7 +470,6 @@ if (manual==false) {^this};
   }
 
   test_multimulti {
-if (manual==false) {^this};
 
     data=[
       FloatArray[
