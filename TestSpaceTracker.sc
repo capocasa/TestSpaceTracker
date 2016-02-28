@@ -111,16 +111,15 @@ TestSpaceWrite : UnitTest {
 
   assertSections {
     |sections|
-    // See assertLength for reason for asString
-    this.assertEquals(write.sections.collect {|e|e.asString}, sections.collect{|e|e.asString}, "sections");
+    write.sections.pairsDo {|p, b, i|
+      this.assertEquals(p, sections[i], "section parallel");
+      this.assertFloatEquals(b, sections[i+1], "section begin");
+    };
   }
 
   assertLength {
     |length|
-    // Compare as string to avoid unexpected rounding behavior
-    // https://github.com/supercollider/supercollider/issues/1875
-    // This is okay because SpaceTracker is a string format
-    this.assertEquals(write.length.asString, length.asString, "length");
+    this.assertFloatEquals(write.length, length, "length");
   }
 
   assertStr { |argStr|
@@ -296,6 +295,20 @@ if (manual==false) {^this};
     this.assertLength(1.23);
 
     this.write;
+  
+    this.assertStr("0.20999999344349 4 0 0
+0.20000000298023 4 kick 0.5
+0.0099999904632568 4 0 0
+ 0.19000001251698 4 0 0
+ 0.20000000298023 4 snare 0.5
+  0.010000020265579 4 0 0
+ 0.010000020265579 4 0 0
+  0.20000000298023 4 hat 0.5
+0.18999998271465 4 0 0
+0.010000020265579 4 0 0
+0.20000000298023 4 hat 0
+0.20000000298023 4 0 0
+");
 
   }
 
@@ -318,6 +331,7 @@ if (manual==false) {^this};
   }
 
   test_typed {
+if (manual==false) {^this};
   
     data = [
       FloatArray[
@@ -397,7 +411,7 @@ if (manual==false) {^this};
   }
 
   test_random4 {
-if (manual==false) {^this};
+
     data = [ FloatArray[ 0.48788809776306, 0.0, 0.5, 2.5708627700806, 0.0, 0.5, 2.4670708179474, 0.0, 0.5, 1.7356063127518, 0.0, 0.5, 1.0764698982239, 0.0, 0.5, 0.97416615486145, 42.0, 0.5 ], FloatArray[ 1.3373662233353, 0.0, 0.5, 2.7281284332275, 0.0, 0.5, 1.7484973669052, 36.0, 0.5, 0.8468474149704, 0.0, 0.5, 0.90775144100189, 0.0, 0.5, 2.5934293270111, 0.0, 0.5, 1.1205224990845, 0.0, 0.5 ], FloatArray[ 0.51271283626556, 0.0, 0.5, 2.3531792163849, 0.0, 0.5, 0.11452782154083, 36.0, 0.5, 0.44738459587097, 0.0, 0.5, 0.54803967475891, 0.0, 0.5, 1.7476712465286, 0.0, 0.5, 0.28566205501556, 0.0, 0.5, 1.1721067428589, 0.0, 0.5, 0.30645668506622, 0.0, 0.5, 0.32808673381805, 36.0, 0.5, 2.9876441955566, 0.0, 0.5, 1.0809245109558, 0.0, 0.5 ] ];
 
     this.analyze;
@@ -406,6 +420,30 @@ if (manual==false) {^this};
     this.assertLength(11.884397);
 
     this.write;
+  
+    this.assertStr("0.48788809776306 4 0 0
+0.024824738502502 4 0 0
+0.8246533870697 4 0 0
+1.5285258293152 4 0 0
+0.11452782154083 4 kick 0.5
+0.078330993652344 4 0 0
+0.36905360221863 4 0 0
+0.54803967475891 4 0 0
+0.089650511741638 4 0 0
+1.7484973669052 4 kick 0.5
+0.19518542289734 4 0 0
+0.65166199207306 4 0 0
+0.52044475078583 4 0 0
+0.080143809318542 4 0 0
+0.22631287574768 4 0 0
+0.32808673381805 4 kick 0.5
+0.52207028865814 4 0 0
+0.97416615486145 4 hat 0.5
+0.8499561548233 4 0 0
+0.64145159721375 4 0 0
+0.47907090187073 4 0 0
+0.60185360908508 4 0 0
+")
   }
 
   test_random5 {
@@ -421,6 +459,7 @@ if (manual==false) {^this};
   }
 
   test_multimulti {
+if (manual==false) {^this};
 
     data=[
       FloatArray[
