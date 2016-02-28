@@ -342,7 +342,6 @@ if (manual==false) {^this};
   }
 
   test_typed {
-if (manual==false) {^this};
   
     data = [
       FloatArray[
@@ -369,8 +368,7 @@ if (manual==false) {^this};
     
     this.write;
 
-    this.assertStr(
-" 1 4 32 0.5
+    this.assertStr(" 1 4 32 0.5
   1 4 0 0
  1.5 4 snare 0.5
   0.5 4 0 0
