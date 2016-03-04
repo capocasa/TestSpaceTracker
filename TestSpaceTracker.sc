@@ -260,7 +260,7 @@ if (manual==false) {^this};
 
     this.write;
 
-    this.assertStr("0.5 4 0 0
+    this.assertStr("2 4 0 0
  1.5 4 kick 0.5
  0.5 4 0 0
   1 4 snare 0.5
