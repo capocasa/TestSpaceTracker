@@ -438,8 +438,8 @@ if (manual==false) {^this};
 
     this.analyze;
     
-    this.assertSections([ false, 0, true, 0.5, false, 2.5, true, 3, false, 4.5 ]);
-    this.assertLength(0);
+    this.assertSections([ true, 0, false, 13.689004540443, true, 14.866332650185, false, 17.145497202873 ]);
+    this.assertLength(20.676443576813);
  
     this.write
 
