@@ -67,6 +67,8 @@ TestSpaceWrite : UnitTest {
       TestSpaceWriteData.abs(data).asCompileString.postln;
       "".postln;
       "".postln;
+      ("LENGTH"+write.length).postln;
+      "".postln;
       "SECTIONS".postln;
       write.sections.postln;
       "".postln;
