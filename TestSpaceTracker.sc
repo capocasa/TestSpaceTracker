@@ -1,3 +1,26 @@
+
+  //
+  // Develop a new test test_myTest using TestSpaceWrite.runManual("myTest", false);
+  //
+  // runmanual enables various debug outputs as well as a graphical window
+  // that visualizes the input data
+  //  
+  // TestSpaceWrite.runManual("single", true) also runs the suite
+  //
+  // Add this line to begin of new test methods while in develpment to avoid running
+  // as part of the suite
+  //
+  // if (manual==false) {^this};
+  //
+  // This runs the developing test along with the suite in one command
+  // 
+  // TestSpaceWrite.runManual("myTest", true)
+  //
+
+  //
+  // This class contains general tests. File format test cases begin with test_single
+  //
+
 TestSpaceWrite : UnitTest {
   classvar
     <>manual = false
