@@ -122,14 +122,6 @@ TestSpaceWrite : UnitTest {
         str.postln;
         "".postln;
         "".postln;
-        block {
-          var p,f;
-          p = "/home/carlo/hoodie/phrase/drum/a/note.drum";
-          File.delete(p);
-          f=File.open(p, "w");
-          f.write(str);
-          f.close;
-        };
       };
     };
   }
