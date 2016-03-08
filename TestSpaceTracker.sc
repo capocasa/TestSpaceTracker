@@ -1016,6 +1016,87 @@ TestSpaceWriteData {
 
 }
 
+TestSpaceRead : UnitTest {
+  var
+    tmp, read, linemap, tree, data, str, polyphony = 5
+  ;
+  *new {
+    ^super.new.init;
+  }
+	init { 
+    tmp = SpaceTmp.new;
+    linemap = SpaceLinemap(\drum);
+    tree = SpaceTree();
+  }
+  read {
+    var file, base;
+    tree.path = tmp.file(\drum);
+    file = File.open(tree.path,"w");
+    file.write(str);
+    file.close;
+
+    base = tmp.file(\wav);
+    read = SpaceRead(tree, linemap); 
+    read.sounds = polyphony.collect { |i|
+      var sound, path;
+      sound = SoundFile.new
+        .headerFormat_("WAV")
+        .sampleFormat_("float")
+        .numChannels_(read.lineSize);
+      path = base ++ if(i > 0, $.++i, "");
+      sound.openWrite(path);
+      sound.path = path;
+      sound
+    };
+    read.toNumeric;
+ 
+    data = read.sounds.collect {|sound, i|
+      var d;
+      sound.openRead;
+      //sound = SoundFile.openRead(sound.path);
+      //d = FloatArray.newClear(65536);
+      d = FloatArray.newClear(read.lineSize * 4096);
+      sound.readData(d);
+      sound.close;
+      d.as(Array);
+    };
+  
+  }
+
+  test_single {
+    str = "1 4 kick 0.5
+1 4 kick 0.5
+";
+    this.read;
+    this.assertData([ [ 1, 36, 0.5, 1, 36, 0.5 ], [  ], [  ], [  ], [  ] ]);
+  }
+  
+  test_prepause {
+    str = "1 4 0
+1 4 kick 0.5
+1 4 kick 0.5
+";
+    this.read;
+    this.assertData([ [ 1, 0, 0, 1, 36, 0.5, 1, 36, 0.5 ], [  ], [  ], [  ], [  ] ]);
+  }
+
+  assertData {
+    arg argData; 
+    this.assertEquals(data.shape, argData.shape, "data shape");
+    if (data.shape == argData.shape) {
+      data.do {|d, i|
+        d.do {|f, j|
+          this.assertFloatEquals(f, argData[i][j]);
+        };
+      };
+    }{
+      data.postln;
+    };
+  }
+
+}
+
+
 + Object {
   postm {
     if(TestSpaceWrite.manual) {
