@@ -1079,6 +1079,15 @@ TestSpaceRead : UnitTest {
     this.read;
     this.assertData([ [ 1, 0, 0, 1, 36, 0.5, 1, 36, 0.5 ], [  ], [  ], [  ], [  ] ]);
   }
+  
+  test_zerobegin {
+    str = "0
+ 1 4 kick 0.5
+ 1 4 snare 0.5
+";
+    this.read;
+    this.assertData([ [ 1, 36, 0.5 ], [ 1, 40, 0.5 ], [  ], [  ], [  ] ]);
+  }
 
   assertData {
     arg argData; 
@@ -1104,5 +1113,6 @@ TestSpaceRead : UnitTest {
     };
   }
 }
+
 
 
