@@ -46,6 +46,46 @@ TestPlayBufS : UnitTest {
     }, "data timeout", 1);
    
   }
+  
+  test_skip {
+  
+    var bufferS, synth, buffer, data;
+
+    SynthDef(\TestPlayBufS, {|rate=0, t_trig=0, start=0, buffer, bufferS|
+      var control;
+      start  = PlayBuf.kr(1, Array.fill(150, 0).put(15, 0).as(LocalBuf));
+      //t_trig = PlayBuf.kr(1, Array.fill(150, 0).put(15, 1).as(LocalBuf));
+      control = PlayBufS.kr(2, bufferS, rate, t_trig, start, 2);
+      RecordBuf.kr(control, buffer, run: rate>0);
+    }).send(s);
+    s.sync;
+
+    bufferS = Buffer.loadCollection(s, [
+      0.01, 48, 0.01,
+      0.02, 49, 0.02,
+      0.03, 50, 0.03,
+      0.04, 51, 0.04,
+      0.05, 52, 0.05,
+    ], 3);
+    
+    buffer = Buffer.alloc(s, 256, 2); 
+    
+    OSCFunc({
+      buffer.getn(0, 512, {|d|
+        d.round(0.000001).asCompileString.post;
+        data = d;
+      });
+    }, '/n_end', s.addr).oneShot;
+  
+    s.sync;
+
+    Synth(\TestPlayBufS, [\rate, 1, \buffer, buffer.bufnum, \bufferS, bufferS.bufnum], s);
+    
+    this.asynchAssert({ data.notNil }, {
+      //this.assertEquals(data.round(0.00001), [].round(0.00001));
+    }, "data timeout", 1);
+   
+  }
 
 }
 
