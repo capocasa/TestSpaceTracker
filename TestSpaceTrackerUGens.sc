@@ -139,5 +139,53 @@ TestRecordBufS : UnitTest {
       this.assertEquals(data.round(0.00001), [ 0.016000000759959, 48.0, 0.10000000149012, 0.032000001519918, 49.0, 0.20000000298023, 0.048000000417233, 50.0, 0.30000001192093, 0.064000003039837, 51.0, 0.40000000596046, 0.079999998211861, 52.0, 0.5, 0.0, 0.0, 0.0 ].round(0.00001));
     }, "data timeout", 1); 
   }
+  
+  test_stop {
+  
+    var bufferS, synth, buffer, data;
+    // DoneAction in PlayBuf, not in RecordBufS
+    SynthDef(\TestRecordBufS, {|rate=0, t_trig=0, start=0, buffer, bufferS|
+      var control;
+      control = PlayBuf.kr(2, buffer, rate, t_trig, start);
+      
+      // More test cases: Initial zero, last zero, zero before note end, one after and vise versa
+      
+      rate = PlayBuf.kr(1, [
+        1,1,1,1, 0,1,1,0, 0,0,0,0,
+
+        0,1,1,0, 0,1,1,1, 1,1,1,0,
+        0,0,0,0, 0,0,0,0, 1,1,1,1,
+
+        1,
+      ].as(LocalBuf));
+      RecordBufS.kr([control], bufferS, rate>0, 2);
+    }).send(s);
+    s.sync;
+    buffer = Buffer.loadCollection(s,
+      []
+      ++ [48, 0.1].wrapExtend(24)
+      ++ [49, 0.2].wrapExtend(2*24)
+      ++ [50, 0.3].wrapExtend(3*24)
+      ++ [51, 0.4].wrapExtend(4*24)
+      ++ [52, 0.5].wrapExtend(5*24)
+      ++ [10, 0.05].wrapExtend(5*2) // trigger done, will not be recorded
+    , 2);
+    
+    bufferS = Buffer.alloc(s, 5, 3);
+    
+    OSCFunc({
+      bufferS.getn(0, 15, {|d|
+        d.round(0.000001).asCompileString.post;
+        data = d;
+      });
+    }, '/n_end', s.addr).oneShot;
+    
+    s.sync;
+    Synth(\TestRecordBufS, [\rate, 1, \buffer, buffer.bufnum, \bufferS, bufferS.bufnum], s);
+    
+    this.asynchAssert({ data.notNil }, {
+      //this.assertEquals(data.round(0.00001), [ 0.016000000759959, 48.0, 0.10000000149012, 0.032000001519918, 49.0, 0.20000000298023, 0.048000000417233, 50.0, 0.30000001192093, 0.064000003039837, 51.0, 0.40000000596046].round(0.00001));
+    }, "data timeout", 1); 
+  }
 
 }
