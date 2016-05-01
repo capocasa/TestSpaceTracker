@@ -123,10 +123,10 @@ TestRecordBufS : UnitTest {
       ++ [52, 0.5].wrapExtend(5*24)
     , 2);
     
-    bufferS = Buffer.alloc(s, 4, 3);
+    bufferS = Buffer.alloc(s, 6, 3);
     
     OSCFunc({
-      bufferS.getn(0, 12, {|d|
+      bufferS.getn(0, 18, {|d|
         d.asCompileString.post;
         data = d;
       });
@@ -136,7 +136,7 @@ TestRecordBufS : UnitTest {
     Synth(\TestRecordBufS, [\rate, 1, \buffer, buffer.bufnum, \bufferS, bufferS.bufnum], s);
     
     this.asynchAssert({ data.notNil }, {
-      this.assertEquals(data.round(0.00001), [ 0.016000000759959, 48.0, 0.10000000149012, 0.032000001519918, 49.0, 0.20000000298023, 0.048000000417233, 50.0, 0.30000001192093, 0.064000003039837, 51.0, 0.40000000596046].round(0.00001));
+      this.assertEquals(data.round(0.00001), [ 0.016000000759959, 48.0, 0.10000000149012, 0.032000001519918, 49.0, 0.20000000298023, 0.048000000417233, 50.0, 0.30000001192093, 0.064000003039837, 51.0, 0.40000000596046, 0.079999998211861, 52.0, 0.5, 0.0, 0.0, 0.0 ].round(0.00001));
     }, "data timeout", 1); 
   }
 
