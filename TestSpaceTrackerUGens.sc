@@ -14,9 +14,10 @@ TestPlayBufS : UnitTest {
     var bufferS, synth, buffer, data;
 
     SynthDef(\TestPlayBufS, {|rate=0, t_trig=0, start=0, buffer, bufferS|
-      var control;
-      control = PlayBufS.kr(2, bufferS, rate, t_trig, start, 2);
-      RecordBuf.kr(control, buffer, run: rate>0);
+      var control, rec;
+      control = PlayBufS.kr(2, bufferS, rate, t_trig, start);
+      rec = RecordBuf.kr(control, buffer, run: rate>0, loop:0);
+      SendReply.kr(Done.kr(rec), '/TestPlayBufS');
     }).send(s);
     s.sync;
 
@@ -35,7 +36,7 @@ TestPlayBufS : UnitTest {
         //d.asCompileString.post
         data = d;
       });
-    }, '/n_end', s.addr).oneShot;
+    }, '/TestPlayBufS', s.addr).oneShot;
   
     s.sync;
 
