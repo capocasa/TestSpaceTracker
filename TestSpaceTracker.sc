@@ -433,13 +433,13 @@ if (manual==false) {^this};
     
     this.write;
 
-    this.assertStr(" 1 4 32 0.5
+    this.assertStr(" 1 4 click 0.5
   1 4 0 0
  1.5 4 snare 0.5
   0.5 4 0 0
  2 4 hat 0.5
 0.5 4 0 0
- 0.5 4 32 0
+ 0.5 4 click 0
  1.5 4 snare 0
  1 4 hat 0
 "
