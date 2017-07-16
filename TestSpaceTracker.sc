@@ -1029,11 +1029,16 @@ TestSpaceRead : UnitTest {
     tree = SpaceTree();
   }
   read {
+    arg inline = false;
     var file, base;
-    tree.path = tmp.file(\drum);
-    file = File.open(tree.path,"w");
-    file.write(str);
-    file.close;
+    if (inline) {
+      tree.path = str;
+    } {
+      tree.path = tmp.file(\drum);
+      file = File.open(tree.path,"w");
+      file.write(str);
+      file.close;
+    };
 
     base = tmp.file(\wav);
     read = SpaceRead(tree, linemap); 
@@ -1103,6 +1108,14 @@ TestSpaceRead : UnitTest {
 1 4";
     this.read;
     this.assertData([ [ 1, 0, 0, 0.75, 0, 64, 1.25, 0, 64 ], [ 1, 0, 0, 0.75, 0, 64, 1.25, 0, 64 ], [ 1, 0, 0, 0.75, 0, 64, 1.25, 0, 64, 1, 0, 0 ], [  ], [  ] ]);
+  }
+  
+  test_inline {
+    str = "1 4 kick 0.5
+1 4 kick 0.5
+";
+    this.read(inline:true);
+    this.assertData([ [ 1, 36, 0.5, 1, 36, 0.5 ], [  ], [  ], [  ], [  ] ]);
   }
 
   assertData {
