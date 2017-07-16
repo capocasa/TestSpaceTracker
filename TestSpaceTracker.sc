@@ -1089,6 +1089,22 @@ TestSpaceRead : UnitTest {
     this.assertData([ [ 1, 36, 0.5 ], [ 1, 40, 0.5 ], [  ], [  ], [  ] ]);
   }
 
+  test_zeropolyphonic {
+    str = "1 4
+ 0
+  3 16 c4 64
+  5 16 c4 64
+ 0
+  3 16 b3b 64
+  5 16 a3 64
+ 0
+  3 16 g3 64
+  5 16 g3 64
+1 4";
+    this.read;
+    this.assertData([ [ 1, 0, 0, 0.75, 0, 64, 1.25, 0, 64 ], [ 1, 0, 0, 0.75, 0, 64, 1.25, 0, 64 ], [ 1, 0, 0, 0.75, 0, 64, 1.25, 0, 64, 1, 0, 0 ], [  ], [  ] ]);
+  }
+
   assertData {
     arg argData; 
     this.assertEquals(data.shape, argData.shape, "data shape");
