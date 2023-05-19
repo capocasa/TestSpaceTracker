@@ -1095,6 +1095,7 @@ TestSpaceRead : UnitTest {
   }
 
   test_zeropolyphonic {
+    linemap = SpaceLinemap(\note);
     str = "1 4
  0
   3 16 c4 64
@@ -1107,7 +1108,7 @@ TestSpaceRead : UnitTest {
   5 16 g3 64
 1 4";
     this.read;
-    this.assertData([ [ 1, 0, 0, 0.75, 0, 64, 1.25, 0, 64 ], [ 1, 0, 0, 0.75, 0, 64, 1.25, 0, 64 ], [ 1, 0, 0, 0.75, 0, 64, 1.25, 0, 64, 1, 0, 0 ], [  ], [  ] ]);
+    this.assertData([ [ 1, 0, 0, 0.75, 72, 64, 1.25, 72, 64 ], [ 1, 0, 0, 0.75, 70, 64, 1.25, 69, 64 ], [ 1, 0, 0, 0.75, 67, 64, 1.25, 67, 64, 1, 0, 0 ], [  ], [  ] ]);
   }
   
   test_inline {
