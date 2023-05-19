@@ -1095,7 +1095,7 @@ TestSpaceRead : UnitTest {
   }
 
   test_zeropolyphonic {
-    linemap = SpaceLinemap(\note);
+    linemap = SpaceLinemap(\note);  # TODO: unknown note should probably error out, not write pause
     str = "1 4
  0
   3 16 c4 64
